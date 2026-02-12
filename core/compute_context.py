@@ -84,6 +84,37 @@ def example_function_1(params: list, context: ComputeContext):
     context.send_progress(100, "Вычисления завершены")
 
 
+def example_function_2(params: list, context: ComputeContext):
+    """Пример функции, которая создает несколько решений и реагирует на паузу"""
+    import time
+
+
+    if context.check_stop():
+        context.send_progress(0, "Вычисления остановлены")
+        return
+
+        # Проверка паузы (блокирует выполнение, если пауза установлена)
+    context.check_pause()
+
+        # Имитация вычислений
+    time.sleep(0.1)
+
+        # Создание решения
+    value = sum(x for x in params)
+    solution = {
+            'parameters': params.copy(),
+            'value': value,
+            'metadata': {'iteration': 0, 'total_steps': 0}
+        }
+
+        # Отправка решения через контекст
+    context.send_solution(solution)
+
+        # Отправка прогресса
+
+    context.send_progress(100, "Вычисления завершены")
+
+
 def monte_carlo_simulation(params: list, context: ComputeContext):
     """Монте-Карло симуляция с постепенным улучшением результата"""
     import time
