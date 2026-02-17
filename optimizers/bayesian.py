@@ -1,48 +1,36 @@
-import skopt.space
+from skopt.space import Real
 from skopt import Optimizer
 
-import matplotlib.pyplot as plt
+from typing import Callable, Tuple, List
 
-from typing import Optional, Callable, Type, List, Tuple
-
-from optimizers.base import Solution, BaseOptimizer, SolutionPool
+from base import BaseOptimizer, Solution, SolutionPool
 
 
-class Bayesian(BaseOptimizer):
-    def __init__(self, callback: Callable,  bounds: List[Tuple[float, float]], minimization: bool = True) -> None:
-        super().__init__(callback, bounds, minimization)
+class BayesianOptimizer(BaseOptimizer):
+    def __init__(self, target_function: Callable, bounds: List[Tuple[float, float]],
+                 minimization: bool = True, *args, **kwargs):
+        super().__init__(target_function, bounds, minimization, *args, **kwargs)
+        self.oracle = Optimizer(self.bounds)
 
-        bounds = [skopt.space.Real(bounds[i][0], bounds[i][1]) for i in range(len(bounds))]
+    def build_bounds(self, bounds: List[Tuple[float, float]]):
+        return [Real(bound[0], bound[1]) for bound in bounds]
 
-        self.oracle  = Optimizer(bounds)
+    def train(self, vector, function_value):
+        if self.minimization:
+            self.oracle.tell(vector, function_value)
+        else:
+            self.oracle.tell(vector, -1 * function_value)
 
-    def optimize(self, function: Callable, iterations, *args, **kwargs):
-        for i in range(iterations):
-
+    def optimize(self, rounds: int, *args, **kwargs):
+        for i in range(rounds):
             ask = self.oracle.ask()
 
-            y = function(ask)
+            f = self.target_function(ask)
 
-            solution = Solution(ask, y)
+            self.train(ask, function_value=f)
 
-            if self.minimization:
-                self.oracle.tell(ask, y)
-                self.callback(solution)
+            solution = self.create_solution(ask, f)
 
-            else:
-                self.oracle.tell(ask, -1 * y)
-
-                self.callback(solution)
-
-
-            self.solution_pool.add_solution(ask)
-
-    def tell_solutions(self, solutions_pool: SolutionPool) -> None:
-        told = self.solution_pool.add_solutions(solutions_pool)
-
-        for item in told:
-            self.oracle.tell(item[0], item[1])
-
-
+            self.solution_pool.add_solution(solution)
 
 
