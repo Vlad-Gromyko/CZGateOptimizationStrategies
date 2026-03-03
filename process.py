@@ -34,6 +34,7 @@ class OptimizationProcess:
         if self.plotter:
             self.plotter.plot_solution_pool(self.solutions_pool)
         print('Лучшее', self.find_best().function_value)
+        print(self.find_best().vector)
         print(len(self.solutions_pool.solutions))
 
        # print('Текущее', solution)

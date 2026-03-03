@@ -13,11 +13,11 @@ if __name__ == '__main__':
 
     dimension = len(vector_val)
 
-    bounds = [(-0, 7) for _ in range(dimension)]
+    bounds = [(0, 7) for _ in range(dimension)]
 
     minimize = True
 
-    optimizer = BayesianOptimizer
+    optimizer = GeneticOptimizer
 
     plotter = LinePlotter
 
@@ -25,5 +25,5 @@ if __name__ == '__main__':
 
 
 
-    process.optimize(1000)
+    process.optimize(2000)
 

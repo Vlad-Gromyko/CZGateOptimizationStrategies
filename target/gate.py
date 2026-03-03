@@ -162,6 +162,13 @@ vector_val, structure_val = split(params)
 
 
 def loss(vector, structure):
+    lifetime80 = 260.3716142904322
+    lifetime5p = 26e-3
+    lifetime7s = 88e-3
+
+    Omega2 = 2 * jnp.pi * 5000
+    Omega3 = jnp.sqrt(Omega2 * 2 * 1 * jnp.pi)
+    gate = CZGateThreePhotonLevine(Omega2, Omega3, 10000, 0 / lifetime5p / 10, 0 / lifetime7s / 10, 0 / lifetime80 / 10)
     params = assemble(vector, structure)
     params_shift = copy.deepcopy(params)
 
