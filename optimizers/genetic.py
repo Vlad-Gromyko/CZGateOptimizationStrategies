@@ -15,21 +15,21 @@ class GeneticOptimizer(BaseOptimizer):
         else:
             fitness_function = lambda ga, vector, idx :target_function(vector)
 
-        num_generations = 500
-        num_parents_mating = 50
+        num_generations = 50
+        num_parents_mating = 10
 
-        sol_per_pop = 500
+        sol_per_pop = 10
         num_genes = len(bounds)
 
         gen_space = self.bounds
 
         parent_selection_type = "sss"
-        keep_parents = 5
+        keep_parents = 2
 
         crossover_type = "single_point"
 
         mutation_type = "random"
-        mutation_percent_genes = 50
+        mutation_percent_genes = 10
 
 
         def on_start(ga_instance):
