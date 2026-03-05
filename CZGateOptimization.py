@@ -8,7 +8,7 @@ from target.gate import loss, structure_val, vector_val
 from process import OptimizationProcess
 import os
 
-os.environ["JAX_PLATFORMS"] = "cuda,cpu"
+
 
 if __name__ == '__main__':
     target = lambda vector: loss(vector, structure_val)

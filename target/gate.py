@@ -1,10 +1,19 @@
 import rydopt as ro
 #import numpy as np
+import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 from rydopt.types import HamiltonianFunction
 import copy
 import time
+import os
+os.environ["JAX_PLATFORMS"] = "cuda"
+
+# 2. Узнать платформу первого устройства (CPU, GPU, TPU)
+print("Платформа по умолчанию:", jax.devices()[0].platform)
+
+# 3. Более подробная информация о локальных устройствах (особенно полезно для multi-GPU)
+print("Локальные устройства:", jax.local_devices())
 
 
 # %%
