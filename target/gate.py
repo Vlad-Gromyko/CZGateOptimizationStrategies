@@ -4,6 +4,7 @@ import jax.numpy as jnp
 import matplotlib.pyplot as plt
 from rydopt.types import HamiltonianFunction
 import copy
+import time
 
 
 # %%
@@ -162,6 +163,7 @@ vector_val, structure_val = split(params)
 
 
 def loss(vector, structure):
+    start = time.time()
     lifetime80 = 260.3716142904322
     lifetime5p = 26e-3
     lifetime7s = 88e-3
@@ -203,6 +205,9 @@ def loss(vector, structure):
 
     time_evolved_basis_states = ro.simulation.evolve(gate, pulse_ansatz, params_jax)
     time_evolved_basis_states_shift = ro.simulation.evolve(gate, pulse_ansatz, params_shift_jax)
+    print('\n')
+    print('TIME',time.time() - start )
+    print('\n')
 
     return ((1 - gate.process_fidelity(time_evolved_basis_states)) + \
            (1 - gate.process_fidelity(time_evolved_basis_states_shift))).item()

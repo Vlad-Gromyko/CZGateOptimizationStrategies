@@ -93,6 +93,8 @@ class BaseOptimizer(ABC):
         self.solution_pool.onNewSolution = self.tell_solution
         self.solution_listener = None
 
+
+
     @abstractmethod
     def build_bounds(self, bounds: List[Tuple[float, float]]):
         pass

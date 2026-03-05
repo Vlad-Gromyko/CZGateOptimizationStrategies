@@ -37,8 +37,8 @@ class OptimizationProcess:
         print(self.find_best().vector)
         print(len(self.solutions_pool.solutions))
 
-       # print('Текущее', solution)
-       # print('\n\n')
+        print('Текущее', solution)
+        print('\n\n')
 
     def accept_optimizer(self, optimizer):
         self.optimizer = optimizer

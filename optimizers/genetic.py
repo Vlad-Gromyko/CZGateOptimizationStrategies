@@ -16,7 +16,7 @@ class GeneticOptimizer(BaseOptimizer):
             fitness_function = lambda ga, vector, idx :target_function(vector)
 
         num_generations = 500
-        num_parents_mating = 5
+        num_parents_mating = 4
 
         sol_per_pop = 20
         num_genes = len(bounds)
@@ -24,12 +24,12 @@ class GeneticOptimizer(BaseOptimizer):
         gen_space = self.bounds
 
         parent_selection_type = "sss"
-        keep_parents = 2
+        keep_parents = 0
 
-        crossover_type = "single_point"
+        crossover_type = "uniform"
 
-        mutation_type = "random"
-        mutation_percent_genes = 10
+        mutation_type = 'random'
+        mutation_percent_genes = 20
 
 
         def on_start(ga_instance):
@@ -66,8 +66,7 @@ class GeneticOptimizer(BaseOptimizer):
                        mutation_percent_genes=mutation_percent_genes,
                        gene_space=gen_space,
                        on_start=on_start,
-                       on_generation=on_generation,
-                       parallel_processing=["thread", 16])
+                       on_generation=on_generation)
 
 
     def optimize(self, rounds, *args, **kwargs):
